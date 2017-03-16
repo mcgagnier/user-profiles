@@ -1,3 +1,31 @@
+
+function getFriendsProfiles(req, res) {
+    var currentUser = req.session.currentUser;
+    if (!currentUser) {
+        res.send({
+            error: "User is undefined.",
+            session: req.session
+        });
+        return;
+    }
+    var results = profiles.filter((profile) => {
+        var friends = currentUser.friends;
+        for(var i = 0; i < friends.length; i++) {
+            if (friends[i] === profile.name)
+                return true;
+        }
+        return false;
+    });
+    res.send({
+        currentUser: currentUser,
+        friends: results
+    });
+
+}
+
+module.exports = {getFriendsProfiles: getFriendsProfiles};
+
+
 var profiles = [
   {
     name: 'Preston McNeil',

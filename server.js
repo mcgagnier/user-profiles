@@ -11,10 +11,14 @@ var corsOptions = {
     origin: 'http://localhost:8086'
 };
 
+app.use(express.static(__dirname + '/public'));
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use(session({secret: config.sessionSecret}))
+app.use(session({secret: config.sessionSecret, cookie: {secure: false}}));
+
+app.get('/api/profiles', profileCtrl.getFriendsProfiles);
+app.post('/api/login', userCtrl.login);
 
 
 
